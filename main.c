@@ -1,147 +1,108 @@
 #include <stdio.h>
-#include <conio.h>
+#include <stdlib.h>
+#include <time.h>
 
-char square[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-int checkwin();
-void board();
+int C_score = 0, P_score = 0;
+char name[40];
 
-int main()
-{
-    int player = 1, i, choice;
-
-    char mark;
-    do
-    {
-        board();
-        player = (player % 2) ? 1 : 2;
-
-        printf("Player %d, enter a number:  ", player);
+void player1() {
+    int choice, var;
+    int i;
+    for (i =1;i<10000;) {
+        printf("\tPress->0 For Rock\n");
+        printf("\tPress->1 For Paper\n");
+        printf("\tPress->2 For Scissor\n");
+        printf("\tEnter Your Choice:");
         scanf("%d", &choice);
-
-        mark = (player == 1) ? 'X' : 'O';
-
-        if (choice == 1 && square[1] == '1')
-            square[1] = mark;
-
-        else if (choice == 2 && square[2] == '2')
-            square[2] = mark;
-
-        else if (choice == 3 && square[3] == '3')
-            square[3] = mark;
-
-        else if (choice == 4 && square[4] == '4')
-            square[4] = mark;
-
-        else if (choice == 5 && square[5] == '5')
-            square[5] = mark;
-
-        else if (choice == 6 && square[6] == '6')
-            square[6] = mark;
-
-        else if (choice == 7 && square[7] == '7')
-            square[7] = mark;
-
-        else if (choice == 8 && square[8] == '8')
-            square[8] = mark;
-
-        else if (choice == 9 && square[9] == '9')
-            square[9] = mark;
-
-        else
-        {
-            printf("Invalid move ");
-
-            player--;
-            getch();
+        switch (choice) {
+            case 0:
+                printf("\tComputer's Turn:\n");
+                srand(time(NULL));
+                var = rand() % 3;
+                printf("%d\n", var);
+                if (choice == 0 || var == 2) {
+                    printf("%s Wins!\n", &name);
+                    P_score++;
+                } else if (choice == 0 || var == 1) {
+                    printf("Computer Wins!\n");
+                    C_score++;
+                } else if (choice == 0 || var == 0) {
+                    printf("It's A Tie!\n");
+                    P_score++;
+                    C_score++;
+                }
+                break;
+            case 1:
+                printf("\tComputer's Turn:\n");
+                srand(time(NULL));
+                var = rand() % 3;
+                printf("%d\n", var);
+                if (choice == 1 && var == 0) {
+                    printf("%s Wins!\n", name);
+                    P_score++;
+                } else if (choice == 1 && var == 2) {
+                    printf("Computer Wins!\n");
+                    C_score++;
+                } else if (choice == 1 && var == 1) {
+                    printf("It's A Tie\n");
+                    P_score++;
+                    C_score++;
+                }
+                break;
+            case 2:
+                printf("\tComputer's Turn:\n");
+                srand(time(NULL));
+                var = rand() % 3;
+                printf("%d\n", var);
+                if (choice == 2 && var == 1) {
+                    printf("%s Wins!\n", name);
+                    P_score++;
+                } else if (choice == 2 && var == 0) {
+                    printf("Computer Wins!\n");
+                    C_score++;
+                } else if (choice == 2 && var == 2) {
+                    printf("It's A Tie\n");
+                    P_score++;
+                    C_score++;
+                }
+                break;
+            default:
+                printf("\tInvalid Choice Choose Again!\n");
         }
-        i = checkwin();
+        printf("\tScore Of %s Is:%d\n", name, P_score);
+        printf("\tScore Of Computer Is:%d\n", C_score);
 
-        player++;
-    }while (i ==  - 1);
-
-    board();
-
-    if (i == 1)
-        printf("==>\aPlayer %d win ", --player);
-    else
-        printf("==>\aGame draw");
-
-    getch();
-
-    return 0;
+        i++;
+    }
+    if (P_score > C_score) {
+        printf("\t%s Wins The Match!\n");
+    } else if (C_score > P_score) {
+        printf("\tComputer Wins The Game!\n");
+    } else {
+        printf("It's A Tie!\n");
+    }
 }
 
-/*********************************************
-
-FUNCTION TO RETURN GAME STATUS
-1 FOR GAME IS OVER WITH RESULT
--1 FOR GAME IS IN PROGRESS
-O GAME IS OVER AND NO RESULT
- **********************************************/
-
-int checkwin()
-{
-    if (square[1] == square[2] && square[2] == square[3])
-        return 1;
-
-    else if (square[4] == square[5] && square[5] == square[6])
-        return 1;
-
-    else if (square[7] == square[8] && square[8] == square[9])
-        return 1;
-
-    else if (square[1] == square[4] && square[4] == square[7])
-        return 1;
-
-    else if (square[2] == square[5] && square[5] == square[8])
-        return 1;
-
-    else if (square[3] == square[6] && square[6] == square[9])
-        return 1;
-
-    else if (square[1] == square[5] && square[5] == square[9])
-        return 1;
-
-    else if (square[3] == square[5] && square[5] == square[7])
-        return 1;
-
-    else if (square[1] != '1' && square[2] != '2' && square[3] != '3' &&
-        square[4] != '4' && square[5] != '5' && square[6] != '6' && square[7]
-        != '7' && square[8] != '8' && square[9] != '9')
-
-        return 0;
-    else
-        return  - 1;
+void rules() {
+    printf("\tRules Of The Game:-\n\n");
+    printf("\t1.Rock Crushes The Scissor Player Who Choose Rock, One Point Will Be Given To Him\n\n");
+    printf("\t2.Paper Cover's The Rock Player Who Choose Paper Against The Rock, One Point Will Be Given To Him\n\n");
+    printf("\t3.Scissor Cuts The Paper Player Who Choose Scissor, One Point Will Be Given To Him\n\n");
+    printf("\tOnly Two Player's Can Play The Game One Will Be The Computer And Second Will Be The User!\n\n");
+    printf("\t4.You Will Be Given Three Chances!\n\n");
+    printf("\tScores Will Be Displayed At The End Of The Match\n\n");
 }
 
+void main() {
+    printf("\t_______________Welcome To The Game: Rock, Paper & Scissor's_______________\n");
+    rules();
+    printf("\tPlease Enter The Name Of Player 1:");
+    scanf(" %s", &name);
+    printf("\tPlayer 1 Is %s And Player 2 Is Computer\n", name);
+    printf("\tYou Have Three Attempts To Win The Game\n");
+    printf("\t%s Turn:-\n", name);
 
-/*******************************************************************
-FUNCTION TO DRAW BOARD OF TIC TAC TOE WITH PLAYERS MARK
- ********************************************************************/
-
-
-void board()
-{
-    system("cls");
-    printf("\n\n\tTic Tac Toe\n\n");
-
-    printf("Player 1 (X)  -  Player 2 (O)\n\n\n");
-
-
-    printf("     |     |     \n");
-    printf("  %c  |  %c  |  %c \n", square[1], square[2], square[3]);
-
-    printf("_____|_____|_____\n");
-    printf("     |     |     \n");
-
-    printf("  %c  |  %c  |  %c \n", square[4], square[5], square[6]);
-
-    printf("_____|_____|_____\n");
-    printf("     |     |     \n");
-
-    printf("  %c  |  %c  |  %c \n", square[7], square[8], square[9]);
-
-    printf("     |     |     \n\n");
+    player1();
 }
 
